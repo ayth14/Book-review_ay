@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -25,7 +26,7 @@ class Book extends Model
         return $query->where('title', 'LIKE', '%' . $title . '%');
     }
 
-    public function scopePopular(Builder $query, $from = null, $to = null): Builder
+    public function scopePopular(Builder $query, $from = null, $to = null): Builder | QueryBuilder
     {
         return $query->withCount([
             'reviews' =>
@@ -35,7 +36,7 @@ class Book extends Model
             ->orderByDesc('reviews_count');
     }
 
-    public function scopeHighestRated(Builder $query, $from = null, $to = null): Builder
+    public function scopeHighestRated(Builder $query, $from = null, $to = null): Builder | QueryBuilder
     {
         return $query->withAvg([
             'reviews' =>
