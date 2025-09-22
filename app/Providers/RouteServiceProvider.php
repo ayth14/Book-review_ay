@@ -3,14 +3,14 @@
 namespace App\Providers;
 
 use Illuminate\Cache\RateLimiting\Limit;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class RouteServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
+     * Register services.
      */
     public function register(): void
     {
@@ -18,12 +18,12 @@ class AppServiceProvider extends ServiceProvider
     }
 
     /**
-     * Bootstrap any application services.
+     * Bootstrap services.
      */
     public function boot(): void
     {
         RateLimiter::for('reviews', function (Request $request) {
-           return Limit::perDay(3)->by($request->user()->id ?: $request->ip());
+           return Limit::perDay(3)->by($request->ip());
         });
     }
 }
